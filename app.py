@@ -19,7 +19,7 @@ for i, r in enumerate(resistances):
     metrics[i+1].metric(f"R{i+1}", f"${r:,.0f}", delta=f"+{r-spot:,.0f}")
 
 supports = data["top_supports"]["strike"][:1]
-if supports:
+if len(supports) > 0:
     metrics[4].metric("S1", f"${supports[0]:,.0f}", delta=f"-{spot-supports[0]:,.0f}")
 
 # Gráfico limpio
