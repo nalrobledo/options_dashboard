@@ -14,18 +14,18 @@ spot = data["spot"]
 metrics = st.columns(5)
 metrics[0].metric("Spot", f"${spot:,.0f}")
 
-resistances = data["top_resistances"]["strike"][:3]
+resistances = data["top_resistances"]["strike"].head(3).tolist()  # ✅ Convertir a lista
 for i, r in enumerate(resistances):
     metrics[i+1].metric(f"R{i+1}", f"${r:,.0f}", delta=f"+{r-spot:,.0f}")
 
-supports = data["top_supports"]["strike"][:1]
-if len(supports) > 0:
+supports = data["top_supports"]["strike"].head(1).tolist()  # ✅ Convertir a lista
+if len(supports) > 0:  # ✅ CORRECCIÓN
     metrics[4].metric("S1", f"${supports[0]:,.0f}", delta=f"-{spot-supports[0]:,.0f}")
 
 # Gráfico limpio
 fig = go.Figure()
 
-all_levels = [spot] + list(resistances) + list(supports)
+all_levels = [spot] + resistances + supports
 fig.add_trace(go.Scatter(x=[0], y=[spot], mode='markers', marker=dict(size=0), showlegend=False))
 
 fig.add_hline(y=spot, line_width=3, line_color="white", 
